@@ -1,0 +1,8 @@
+.qg-lista { display: flex; flex-direction: column; gap: var(--space-3); max-width: 640px; }
+.qg-card { position: relative; }
+.qg-card--fixado { border-color: var(--accent); }
+.qg-card__pin { position: absolute; top: var(--space-3); right: var(--space-3); font-size: 0.9rem; color: var(--text-muted); }
+.qg-card__pin.is-fixado { color: var(--accent); }
+.qg-card__titulo { font-weight: 600; margin-bottom: var(--space-2); padding-right: 24px; }
+.qg-card__conteudo { font-size: 0.875rem; color: var(--text-secondary); white-space: pre-wrap; margin-bottom: var(--space-3); }
+.qg-card__footer { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); }

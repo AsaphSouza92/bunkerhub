@@ -1,0 +1,12 @@
+.relatorios-lista { display: flex; flex-direction: column; gap: var(--space-3); }
+.relatorio-card { cursor: pointer; }
+.relatorio-card__header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-2); }
+.relatorio-card__evento { font-weight: 600; }
+.relatorio-card__data { font-size: 0.75rem; color: var(--text-muted); }
+
+.relatorio-card__stats { display: flex; gap: var(--space-4); margin-top: var(--space-2); }
+.relatorio-stat { font-size: 0.75rem; color: var(--text-secondary); }
+.relatorio-stat strong { display: block; font-size: 1.1rem; color: var(--text-primary); }
+
+.relatorio-card__resumo { margin-top: var(--space-2); font-size: 0.85rem; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.field-numeros { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }

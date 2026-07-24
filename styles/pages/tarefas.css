@@ -1,0 +1,13 @@
+.tarefas-toolbar { display: flex; gap: var(--space-2); margin-bottom: var(--space-5); flex-wrap: wrap; }
+.tarefas-toolbar button { padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm); font-size: 0.8125rem; background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+.tarefas-toolbar button.is-active { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+
+.tarefa-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3); margin-bottom: var(--space-2); }
+.tarefa-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); flex-shrink: 0; }
+.tarefa-item__info { flex: 1; min-width: 0; }
+.tarefa-item__titulo { font-size: 0.9rem; }
+.tarefa-item--concluida .tarefa-item__titulo { text-decoration: line-through; color: var(--text-muted); }
+.tarefa-item__prazo { font-size: 0.75rem; color: var(--text-secondary); }
+.tarefa-item__prazo--atrasado { color: var(--perigo); font-weight: 600; }
+.tarefa-item__excluir { color: var(--text-muted); font-size: 0.9rem; flex-shrink: 0; }
+.tarefa-item__excluir:hover { color: var(--perigo); }

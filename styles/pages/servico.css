@@ -1,0 +1,26 @@
+.servico-tabs { display: flex; gap: var(--space-2); margin-bottom: var(--space-5); }
+.servico-tabs button {
+  padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm); font-size: 0.8125rem;
+  background: var(--bg-elevated); color: var(--text-secondary); border: 1px solid var(--border-subtle);
+}
+.servico-tabs button.is-active { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+
+.servico-painel { display: none; }
+.servico-painel.is-visible { display: block; }
+
+.funcoes-lista { display: flex; flex-direction: column; gap: var(--space-2); max-width: 480px; }
+.funcao-item { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3); }
+.funcao-item__acoes { display: flex; gap: var(--space-2); }
+.funcao-item__acoes button { font-size: 0.75rem; color: var(--text-secondary); }
+.funcao-item__acoes button:hover { color: var(--text-primary); }
+
+.nova-funcao-row { display: flex; gap: var(--space-2); margin-top: var(--space-4); max-width: 480px; }
+.nova-funcao-row input { flex: 1; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); }
+
+.escala-selector { margin-bottom: var(--space-5); max-width: 400px; }
+.escala-selector select { width: 100%; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); }
+
+.escala-add-row { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap; }
+.escala-add-row select { flex: 1; min-width: 160px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); }
+
+.escala-item { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2) var(--space-3); }
