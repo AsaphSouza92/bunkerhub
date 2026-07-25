@@ -1,0 +1,33 @@
+/* fonts.css — Fonte temporária: Sora (Google Fonts), enquanto a Ruberoid original não é adicionada.
+   Quando tiver os arquivos .otf da Ruberoid, troque este @import pelos @font-face
+   apontando para assets/fonts/, como no comentário abaixo. */
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
+
+/*
+@font-face {
+  font-family: 'Ruberoid';
+  src: url('../../assets/fonts/Ruberoid-Regular.otf') format('opentype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Ruberoid';
+  src: url('../../assets/fonts/Ruberoid-Medium.otf') format('opentype');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Ruberoid';
+  src: url('../../assets/fonts/Ruberoid-SemiBold.otf') format('opentype');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Ruberoid';
+  src: url('../../assets/fonts/Ruberoid-Bold.otf') format('opentype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Ruberoid';
+  src: url('../../assets/fonts/Ruberoid-ExtraBold.otf') format('opentype');
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+*/

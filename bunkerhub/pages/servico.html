@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serviço — Bunker Hub</title>
+
+  <link rel="stylesheet" href="../styles/base/reset.css">
+  <link rel="stylesheet" href="../styles/base/variables.css">
+  <link rel="stylesheet" href="../styles/base/typography.css">
+  <link rel="stylesheet" href="../styles/base/fonts.css">
+  <link rel="stylesheet" href="../styles/base/utilities.css">
+  <link rel="stylesheet" href="../styles/components/sidebar.css">
+  <link rel="stylesheet" href="../styles/components/card.css">
+  <link rel="stylesheet" href="../styles/components/button.css">
+  <link rel="stylesheet" href="../styles/components/modal.css">
+  <link rel="stylesheet" href="../styles/components/toast.css">
+  <link rel="stylesheet" href="../styles/layouts/page-shell.css">
+  <link rel="stylesheet" href="../styles/pages/servico.css">
+</head>
+<body>
+  <div id="sidebar-overlay-mount"></div>
+
+  <div class="app-shell">
+    <div id="sidebar-mount"></div>
+
+    <div class="shell-body">
+      <div id="mobile-header-mount"></div>
+
+      <main class="content">
+        <div class="page-header">
+          <p class="page-header__greeting">Equipe Aspirantes</p>
+          <h1>Serviço</h1>
+        </div>
+
+        <div class="servico-tabs">
+          <button data-painel="escalas" class="is-active">Escalas</button>
+          <button data-painel="funcoes">Funções</button>
+        </div>
+
+        <section class="servico-painel is-visible" id="painel-escalas">
+          <div class="escala-selector">
+            <label class="text-xs text-secondary">Selecione o evento</label>
+            <select id="select-evento"></select>
+          </div>
+
+          <div class="escala-add-row">
+            <select id="select-pessoa"></select>
+            <select id="select-funcao"></select>
+            <button class="btn btn--primary" id="btn-adicionar-escala">+ Adicionar</button>
+          </div>
+
+          <div class="card" id="lista-escala"></div>
+        </section>
+
+        <section class="servico-painel" id="painel-funcoes">
+          <div class="funcoes-lista" id="funcoes-lista"></div>
+          <div class="nova-funcao-row">
+            <input type="text" id="nova-funcao-input" placeholder="Nome da nova função...">
+            <button class="btn btn--primary" id="btn-add-funcao">Adicionar</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script type="module">
+    import { montarSidebar } from '../scripts/components/Sidebar.js';
+    montarSidebar('servico');
+  </script>
+  <script type="module" src="../scripts/pages/servico.page.js"></script>
+</body>
+</html>

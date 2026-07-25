@@ -1,0 +1,15 @@
+.eventos-lista { display: flex; flex-direction: column; gap: var(--space-3); }
+.evento-card { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.evento-card__data { min-width: 56px; text-align: center; background: var(--bg-base); border-radius: var(--radius-sm); padding: var(--space-2); }
+.evento-card__data-dia { font-size: 1.1rem; font-weight: 700; }
+.evento-card__data-mes { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; }
+.evento-card__info { flex: 1; min-width: 160px; }
+.evento-card__nome { font-weight: 600; }
+.evento-card__tag-incompleto { font-size: 0.7rem; color: var(--status-analise); }
+
+.checklist-item { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-1) 0; }
+.checklist-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); }
+.checklist-item--feito span { text-decoration: line-through; color: var(--text-muted); }
+
+.add-item-row { display: flex; gap: var(--space-2); margin-top: var(--space-2); }
+.add-item-row input { flex: 1; }

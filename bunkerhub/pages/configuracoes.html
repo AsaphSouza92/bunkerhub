@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações — Bunker Hub</title>
+
+  <link rel="stylesheet" href="../styles/base/reset.css">
+  <link rel="stylesheet" href="../styles/base/variables.css">
+  <link rel="stylesheet" href="../styles/base/typography.css">
+  <link rel="stylesheet" href="../styles/base/fonts.css">
+  <link rel="stylesheet" href="../styles/base/utilities.css">
+  <link rel="stylesheet" href="../styles/components/sidebar.css">
+  <link rel="stylesheet" href="../styles/components/card.css">
+  <link rel="stylesheet" href="../styles/components/button.css">
+  <link rel="stylesheet" href="../styles/components/toast.css">
+  <link rel="stylesheet" href="../styles/layouts/page-shell.css">
+  <link rel="stylesheet" href="../styles/pages/configuracoes.css">
+</head>
+<body>
+  <div id="sidebar-overlay-mount"></div>
+
+  <div class="app-shell">
+    <div id="sidebar-mount"></div>
+
+    <div class="shell-body">
+      <div id="mobile-header-mount"></div>
+
+      <main class="content">
+        <div class="page-header">
+          <p class="page-header__greeting">Bunker Legacy</p>
+          <h1>Configurações</h1>
+        </div>
+
+        <section class="config-secao card">
+          <h3>Dados da plataforma</h3>
+          <div class="config-resumo-lista" id="resumo-dados"></div>
+        </section>
+
+        <section class="config-secao card">
+          <h3>Sincronização</h3>
+          <div class="config-resumo-item">
+            <span>Status</span>
+            <span class="text-secondary" id="status-sincronizacao">Verificando...</span>
+          </div>
+          <p class="text-sm text-secondary mt-2">
+            Hoje os dados ficam salvos apenas neste dispositivo. Para a liderança inteira acessar os mesmos dados, é preciso conectar um provedor sincronizado (Firebase ou Supabase).
+          </p>
+        </section>
+
+        <section class="config-secao card">
+          <h3>Conta</h3>
+          <p class="text-sm text-secondary">Ainda não há login nesta versão — qualquer pessoa com acesso a este dispositivo/link pode usar o BunkerHub. Autenticação está planejada para quando um provedor sincronizado for conectado.</p>
+        </section>
+
+        <section class="config-secao card">
+          <h3>Backup</h3>
+          <p class="text-sm text-secondary">Exporte um arquivo com todos os dados cadastrados, ou restaure a partir de um backup anterior.</p>
+          <div class="config-acoes">
+            <button class="btn btn--primary" id="btn-exportar">⬇ Baixar backup</button>
+            <label class="btn btn--ghost" style="cursor:pointer;">
+              ⬆ Importar backup
+              <input type="file" id="input-importar" accept=".json" style="display:none;">
+            </label>
+          </div>
+        </section>
+
+        <section class="config-secao card">
+          <h3>Itens arquivados</h3>
+          <p class="text-sm text-secondary mb-3">
+            Itens arquivados saem das listagens comuns, mas nada é apagado. Reative quando precisar.
+          </p>
+          <div class="arquivados-selector">
+            <select id="select-colecao-arquivada"></select>
+          </div>
+          <div id="lista-arquivados"></div>
+        </section>
+
+        <section class="config-secao card config-danger">
+          <h3>Zona de risco</h3>
+          <p class="text-sm text-secondary">Isso apaga permanentemente todos os dados cadastrados no dispositivo. Use apenas para reiniciar o ambiente de testes.</p>
+          <div class="config-acoes">
+            <button class="btn btn--ghost btn--perigo-texto" id="btn-limpar">Apagar todos os dados</button>
+          </div>
+        </section>
+
+        <section class="config-secao card">
+          <h3>Sobre o BunkerHub</h3>
+          <p class="config-filosofia">
+            Toda funcionalidade desta plataforma responde a duas perguntas: <strong>isso glorifica a Deus?</strong> e <strong>isso ajuda a cuidar melhor das pessoas?</strong>
+            O BunkerHub existe para reduzir o tempo gasto com organização e aumentar o tempo dedicado ao discipulado, comunhão, serviço e cuidado da Juventude Bunker.
+          </p>
+          <p class="text-xs text-muted mt-2" id="versao-app"></p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script type="module">
+    import { montarSidebar } from '../scripts/components/Sidebar.js';
+    montarSidebar('configuracoes');
+  </script>
+  <script type="module" src="../scripts/pages/configuracoes.page.js"></script>
+</body>
+</html>

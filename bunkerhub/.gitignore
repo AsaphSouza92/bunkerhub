@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.backup.json
+bunkerhub-backup-*.json
+.env
+.env.local

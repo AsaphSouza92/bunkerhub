@@ -1,0 +1,19 @@
+.config-secao { max-width: 640px; margin-bottom: var(--space-6); }
+.config-secao h3 { margin-bottom: var(--space-3); }
+
+.config-resumo-lista { display: flex; flex-direction: column; gap: 2px; }
+.config-resumo-item { display: flex; justify-content: space-between; padding: var(--space-2) 0; border-bottom: 1px solid var(--border-subtle); font-size: 0.85rem; }
+.config-resumo-item:last-child { border-bottom: none; }
+
+.config-acoes { display: flex; gap: var(--space-2); margin-top: var(--space-3); flex-wrap: wrap; }
+.config-filosofia { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; }
+.config-filosofia strong { color: var(--text-primary); }
+.config-danger { border-color: rgba(224, 93, 93, 0.3); }
+
+.arquivados-selector { margin-bottom: var(--space-4); }
+.arquivados-selector select { width: 100%; max-width: 320px; background: var(--bg-base); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); }
+
+.arquivado-item { display: flex; justify-content: space-between; align-items: center; padding: var(--space-2) 0; border-bottom: 1px solid var(--border-subtle); font-size: 0.85rem; }
+.arquivado-item:last-child { border-bottom: none; }
+.arquivado-item__acao { font-size: 0.75rem; color: var(--accent); }
+.arquivado-item__acao:hover { text-decoration: underline; }

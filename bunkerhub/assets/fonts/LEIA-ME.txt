@@ -1,0 +1,15 @@
+Coloque aqui as 5 fontes .otf da Ruberoid quando as tiver:
+- Ruberoid-Regular.otf
+- Ruberoid-Medium.otf
+- Ruberoid-SemiBold.otf
+- Ruberoid-Bold.otf
+- Ruberoid-ExtraBold.otf
+
+Enquanto isso, o app está usando a fonte Sora (Google Fonts, carregada via
+@import em styles/base/fonts.css) como substituta temporária para --font-brand.
+
+Para voltar à Ruberoid depois:
+1. Coloque os 5 arquivos .otf nesta pasta.
+2. Em styles/base/fonts.css, remova o @import da Sora e descomente o bloco
+   de @font-face da Ruberoid (já está pronto, só comentado).
+3. Em styles/base/variables.css, troque --font-brand para 'Ruberoid', 'Inter', sans-serif;

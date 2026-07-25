@@ -1,0 +1,10 @@
+.indicadores-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-6); }
+.indicador-card { text-align: left; }
+.indicador-card__valor { font-size: 2rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: var(--space-2); }
+.indicador-card__label { font-size: 0.8rem; color: var(--text-secondary); }
+
+.grafico-container { display: flex; align-items: flex-end; gap: var(--space-3); height: 180px; padding-top: var(--space-4); }
+.grafico-barra-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; gap: var(--space-2); }
+.grafico-barra { width: 100%; max-width: 40px; background: var(--accent-gradiente); border-radius: 4px 4px 0 0; transition: height var(--transition-base); }
+.grafico-valor { font-size: 0.75rem; color: var(--text-secondary); }
+.grafico-label { font-size: 0.7rem; color: var(--text-muted); text-align: center; }
