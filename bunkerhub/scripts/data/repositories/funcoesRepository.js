@@ -1,5 +1,5 @@
 import { activeProvider as db } from '../providers/index.js';
-const COLLECTION = 'funcoes';
+const COLLECTION = 'funcoes_servico';
 
 export const funcoesRepository = {
   async listar(filtro = () => true) { return db.listAtivos(COLLECTION, filtro); },
