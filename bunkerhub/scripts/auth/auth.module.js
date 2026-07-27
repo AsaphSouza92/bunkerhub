@@ -14,6 +14,9 @@ function resolverCaminhoInicio() {
 
 export async function obterSessaoAtual() {
   const { data } = await supabase.auth.getSession();
+
+  console.log('SESSAO:', data.session);
+
   return data.session;
 }
 
@@ -26,17 +29,22 @@ export async function obterSessaoAtual() {
 // Um seletor de igreja pode ser adicionado depois sem remodelar nada —
 // a estrutura (usuarios_igreja) já suporta múltiplos vínculos.
 async function sincronizarUsuarioAtual(sessao) {
+
+  console.log('SINCRONIZANDO USUARIO', sessao);
+
   const { data: profile } = await supabase
     .from('profiles')
     .select('id, nome_completo, avatar_url')
     .eq('id', sessao.user.id)
     .single();
+    console.log('PROFILE ENCONTRADO', profile);
 
   const { data: vinculos } = await supabase
     .from('usuarios_igreja')
     .select('igreja_id, papel, igrejas ( nome )')
     .eq('profile_id', sessao.user.id)
     .eq('ativo', true);
+    console.log('VINCULOS', vinculos);
 
   const vinculoAtivo = vinculos?.[0] || null;
 
@@ -50,6 +58,7 @@ async function sincronizarUsuarioAtual(sessao) {
       ? { id: vinculoAtivo.igreja_id, nome: vinculoAtivo.igrejas?.nome, papel: vinculoAtivo.papel }
       : null,
   });
+  console.log('STORE ATUALIZADO', getState());
 }
 
 // Chamada no início de toda página "interna" do app (via Sidebar.js).
