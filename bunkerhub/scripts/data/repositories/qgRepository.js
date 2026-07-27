@@ -1,5 +1,5 @@
 import { activeProvider as db } from '../providers/index.js';
-const COLLECTION = 'qg';
+const COLLECTION = 'notificacoes';
 
 export const qgRepository = {
   async listar(filtro = () => true) { return db.listAtivos(COLLECTION, filtro); },
