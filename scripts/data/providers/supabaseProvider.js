@@ -70,7 +70,7 @@ export const supabaseProvider = {
       );
     }
 
-    payloadBase.igrejaId = igrejaId;
+    payloadBase.igreja_id = igrejaId;
   }
 
   const payload = paraSnakeCase(payloadBase);
