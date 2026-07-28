@@ -74,6 +74,9 @@ function setupLogout() {
 }
 
 export async function montarSidebar(activeId, tituloMobile) {
+
+  console.log('MONTAR SIDEBAR EXECUTOU');
+  
   // Em modo localStorage isso é um no-op (retorna true na hora). Em modo
   // supabase, confirma a sessão e preenche usuarioAtual/igrejaAtual no
   // store antes de desenhar o rodapé da sidebar. Se não houver sessão,
