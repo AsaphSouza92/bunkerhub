@@ -1,4 +1,4 @@
-export const DB_PROVIDER = 'localStorage'; // 'localStorage' | 'firebase' | 'supabase'
+export const DB_PROVIDER = 'supabase'; // 'localStorage' | 'firebase' | 'supabase'
 
 export const FIREBASE_CONFIG = {
   apiKey: 'COLE_AQUI',
@@ -10,6 +10,6 @@ export const FIREBASE_CONFIG = {
 };
 
 export const SUPABASE_CONFIG = {
-  url: 'https://seu-projeto.supabase.co',
-  anonKey: 'COLE_AQUI',
+  url: 'https://blodxmdkilegmblxznvn.supabase.co',
+  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJsb2R4bWRraWxlZ21ibHh6bnZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4ODU1OTgsImV4cCI6MjEwMDQ2MTU5OH0.-0CVT7k6SAE8A3S-GBOHQpYEs06WrD9zBPpRKrgLdoQ',
 };

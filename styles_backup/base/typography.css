@@ -1,0 +1,9 @@
+h1, h2, h3, h4 { font-weight: 600; letter-spacing: -0.01em; }
+h1 { font-size: 1.75rem; font-family: var(--font-brand); font-weight: 700; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1rem; }
+
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-sm { font-size: 0.8125rem; }
+.text-xs { font-size: 0.75rem; }

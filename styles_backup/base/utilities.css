@@ -1,0 +1,8 @@
+.shell-body { flex: 1; min-width: 0; }
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mb-3 { margin-bottom: var(--space-3); }
+.cor-sucesso { color: var(--status-aprovado); }
+.w-full { width: 100%; }

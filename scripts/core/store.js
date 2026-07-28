@@ -1,6 +1,11 @@
 const state = {
   sidebarOpen: false,
-  usuarioAtual: { nome: "Liderança", id: "mock-user" },
+  // usuarioAtual e igrejaAtual começam nulos e são preenchidos pelo
+  // scripts/auth/auth.module.js assim que a sessão é confirmada.
+  // Em modo localStorage (DB_PROVIDER !== 'supabase') eles permanecem
+  // nulos — nenhuma tela hoje depende deles para funcionar.
+  usuarioAtual: null,
+  igrejaAtual: null,
   filtrosAtivos: {},
 };
 

@@ -1,0 +1,12 @@
+.pessoas-toolbar { display: flex; gap: var(--space-3); margin-bottom: var(--space-5); flex-wrap: wrap; }
+.pessoas-toolbar input, .pessoas-toolbar select {
+  background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); font-size: 0.875rem; color: var(--text-primary);
+}
+.pessoas-toolbar input { flex: 1; min-width: 180px; }
+
+.pessoas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--space-3); }
+.pessoa-card { cursor: pointer; }
+.pessoa-card__nome { font-weight: 600; margin-bottom: var(--space-1); }
+.pessoa-card__meta { display: flex; flex-direction: column; gap: 2px; }
+.pessoa-card__alerta { margin-top: var(--space-2); display: inline-flex; align-items: center; gap: 4px; font-size: 0.7rem; color: var(--perigo); }

@@ -1,10 +1,24 @@
 import { NAV_ITEMS } from './sidebar.config.js';
 import { getState, setState } from '../core/store.js';
+import { exigirLogin, fazerLogout } from '../auth/auth.module.js';
 
 function resolverCaminho(item) {
   const estaEmPastaPages = window.location.pathname.includes('/pages/');
   if (item.arquivo === null) return estaEmPastaPages ? '../index.html' : 'index.html';
   return estaEmPastaPages ? item.arquivo : `pages/${item.arquivo}`;
+}
+
+function renderRodapeUsuarioHTML() {
+  const { usuarioAtual, igrejaAtual } = getState();
+  if (!usuarioAtual) return '';
+
+  return `
+    <div class="sidebar__usuario">
+      <div class="sidebar__usuario-nome">${usuarioAtual.nome}</div>
+      ${igrejaAtual ? `<div class="sidebar__usuario-igreja">${igrejaAtual.nome}</div>` : ''}
+      <button class="sidebar__usuario-sair" id="sidebar-logout-btn">Sair</button>
+    </div>
+  `;
 }
 
 function renderSidebarHTML(activeId) {
@@ -20,6 +34,7 @@ function renderSidebarHTML(activeId) {
         <span class="sidebar__brand-bunker">Bunker</span><span class="sidebar__brand-hub">Hub</span>
       </div>
       <nav class="sidebar__nav">${links}</nav>
+      ${renderRodapeUsuarioHTML()}
     </aside>
   `;
 }
@@ -54,7 +69,21 @@ function setupToggle() {
   });
 }
 
-export function montarSidebar(activeId, tituloMobile) {
+function setupLogout() {
+  document.getElementById('sidebar-logout-btn')?.addEventListener('click', () => fazerLogout());
+}
+
+export async function montarSidebar(activeId, tituloMobile) {
+
+  console.log('MONTAR SIDEBAR EXECUTOU');
+  
+  // Em modo localStorage isso é um no-op (retorna true na hora). Em modo
+  // supabase, confirma a sessão e preenche usuarioAtual/igrejaAtual no
+  // store antes de desenhar o rodapé da sidebar. Se não houver sessão,
+  // redireciona para o login e interrompe a montagem.
+  const podeContinuar = await exigirLogin();
+  if (podeContinuar === false) return;
+
   const item = NAV_ITEMS.find(i => i.id === activeId);
   const titulo = tituloMobile || item?.label || 'Bunker Hub';
 
@@ -67,4 +96,5 @@ export function montarSidebar(activeId, tituloMobile) {
   if (headerMount) headerMount.innerHTML = renderHeaderMobileHTML(titulo);
 
   setupToggle();
+  setupLogout();
 }

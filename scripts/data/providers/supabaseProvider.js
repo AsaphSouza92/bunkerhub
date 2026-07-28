@@ -1,8 +1,5 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_CONFIG } from '../db.config.js';
-
-const supabase = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
-
+import { supabase } from '../supabaseClient.js';
+import { getState } from '../../core/store.js';
 function agoraISO() { return new Date().toISOString(); }
 
 function paraCamelCase(registro) {
@@ -18,7 +15,20 @@ function paraSnakeCase(dados) {
   if (updatedAt) payload.updated_at = updatedAt;
   return payload;
 }
-
+function tabelasComIgreja() {
+  return [
+    'igrejas',
+    'pessoas',
+    'ministerios',
+    'eventos',
+    'tarefas',
+    'relatorios',
+    'ideias',
+    'notificacoes',
+    'materiais_biblioteca',
+    'funcoes_servico'
+  ];
+}
 export const supabaseProvider = {
   async list(table, filterFn = () => true) {
     const { data, error } = await supabase.from(table).select('*');
@@ -37,12 +47,46 @@ export const supabaseProvider = {
     return paraCamelCase(data);
   },
 
-  async create(table, dados) {
-    const payload = paraSnakeCase({ ...dados, ativo: dados.ativo ?? true, createdAt: agoraISO(), updatedAt: agoraISO() });
-    const { data, error } = await supabase.from(table).insert(payload).select().single();
-    if (error) throw new Error(`Erro ao criar em "${table}": ${error.message}`);
-    return paraCamelCase(data);
-  },
+ async create(table, dados) {
+
+  const estado = getState();
+
+  const precisaIgreja = tabelasComIgreja().includes(table);
+
+  const payloadBase = {
+    ...dados,
+    ativo: dados.ativo ?? true,
+    createdAt: agoraISO(),
+    updatedAt: agoraISO(),
+  };
+
+  if (precisaIgreja) {
+
+    const igrejaId = estado.igrejaAtual?.id;
+
+    if (!igrejaId) {
+      throw new Error(
+        `Não foi possível criar registro em "${table}": igreja não identificada.`
+      );
+    }
+
+    payloadBase.igrejaId = igrejaId;
+  }
+
+  const payload = paraSnakeCase(payloadBase);
+
+  const { data, error } = await supabase
+    .from(table)
+    .insert(payload)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(`Erro ao criar em "${table}": ${error.message}`);
+  }
+
+  return paraCamelCase(data);
+},
 
   async update(table, id, patch) {
     const payload = paraSnakeCase({ ...patch, updatedAt: agoraISO() });
