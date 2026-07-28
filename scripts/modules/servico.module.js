@@ -34,10 +34,11 @@ export async function getEscalaDoEvento(eventoId) {
 
 export async function escalarPessoa(eventoId, pessoaId, funcaoId) {
   if (!pessoaId || !funcaoId) throw new Error('Selecione uma pessoa e uma função.');
-  const escala = await escalasRepository.criar({ eventoId, pessoaId, funcaoId });
-  emit('escala:criada', escala);
-  return escala;
-}
+ const escala = await escalasRepository.criar({
+  evento_id: eventoId,
+  pessoa_id: pessoaId,
+  funcao_servico_id: funcaoId
+});
 
 export async function removerEscala(id) {
   await escalasRepository.remover(id);
