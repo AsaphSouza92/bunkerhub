@@ -5,14 +5,21 @@ import { listarEventos } from './eventos.module.js';
 import { emit } from '../core/events.js';
 
 export async function listarFuncoes({ apenasAtivas = true } = {}) {
-  const funcoes = apenasAtivas ? await funcoesRepository.listar() : await funcoesRepository.listar(() => true);
+  const funcoes = apenasAtivas
+    ? await funcoesRepository.listar()
+    : await funcoesRepository.listar(() => true);
+
   return funcoes.sort((a, b) => a.nome.localeCompare(b.nome));
 }
 
 export async function criarFuncao(nome) {
-  if (!nome || nome.trim().length < 2) throw new Error('Dê um nome válido para a função.');
+  if (!nome || nome.trim().length < 2) {
+    throw new Error('Dê um nome válido para a função.');
+  }
+
   const funcao = await funcoesRepository.criar(nome.trim());
   emit('funcao:criada', funcao);
+
   return funcao;
 }
 
@@ -23,8 +30,11 @@ export async function arquivarFuncao(id) {
 
 export async function getEscalaDoEvento(eventoId) {
   const [escalas, pessoas, funcoes] = await Promise.all([
-    escalasRepository.listarPorEvento(eventoId), listarPessoas(), listarFuncoes({ apenasAtivas: false })
+    escalasRepository.listarPorEvento(eventoId),
+    listarPessoas(),
+    listarFuncoes({ apenasAtivas: false })
   ]);
+
   return escalas.map(e => ({
     ...e,
     pessoa: pessoas.find(p => p.id === e.pessoaId) || null,
@@ -33,12 +43,20 @@ export async function getEscalaDoEvento(eventoId) {
 }
 
 export async function escalarPessoa(eventoId, pessoaId, funcaoId) {
-  if (!pessoaId || !funcaoId) throw new Error('Selecione uma pessoa e uma função.');
- const escala = await escalasRepository.criar({
-  evento_id: eventoId,
-  pessoa_id: pessoaId,
-  funcao_servico_id: funcaoId
-});
+  if (!pessoaId || !funcaoId) {
+    throw new Error('Selecione uma pessoa e uma função.');
+  }
+
+  const escala = await escalasRepository.criar({
+    evento_id: eventoId,
+    pessoa_id: pessoaId,
+    funcao_servico_id: funcaoId
+  });
+
+  emit('escala:criada', escala);
+
+  return escala;
+}
 
 export async function removerEscala(id) {
   await escalasRepository.remover(id);
@@ -47,5 +65,8 @@ export async function removerEscala(id) {
 
 export async function listarEventosParaEscala() {
   const hoje = new Date().toISOString().slice(0, 10);
-  return listarEventos(e => !e.data || e.data >= hoje);
+
+  return listarEventos(
+    e => !e.data || e.data >= hoje
+  );
 }
