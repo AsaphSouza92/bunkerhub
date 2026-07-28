@@ -54,11 +54,10 @@ export const supabaseProvider = {
   const precisaIgreja = tabelasComIgreja().includes(table);
 
   const payloadBase = {
-    ...dados,
-    ativo: dados.ativo ?? true,
-    createdAt: agoraISO(),
-    updatedAt: agoraISO(),
-  };
+  ...dados,
+  createdAt: agoraISO(),
+  updatedAt: agoraISO(),
+};
 
   if (precisaIgreja) {
 
