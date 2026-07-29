@@ -35,11 +35,25 @@ export async function getEscalaDoEvento(eventoId) {
     listarFuncoes({ apenasAtivas: false })
   ]);
 
-  return escalas.map(e => ({
-    ...e,
-    pessoa: pessoas.find(p => p.id === e.pessoaId) || null,
-    funcao: funcoes.find(f => f.id === e.funcaoId) || null,
-  }));
+  console.log('ESCALAS', escalas);
+  console.log('PESSOAS', pessoas);
+  console.log('FUNCOES', funcoes);
+
+  return escalas.map(e => {
+    const pessoaId = e.pessoa_id || e.pessoaId;
+    const funcaoId = e.funcao_servico_id || e.funcaoId;
+
+    return {
+      ...e,
+      pessoa: pessoas.find(
+        p => String(p.id) === String(pessoaId)
+      ) || null,
+
+      funcao: funcoes.find(
+        f => String(f.id) === String(funcaoId)
+      ) || null,
+    };
+  });
 }
 
 export async function escalarPessoa(eventoId, pessoaId, funcaoId) {
