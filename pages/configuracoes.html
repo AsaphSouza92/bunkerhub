@@ -5,169 +5,259 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Configurações — Bunker Hub</title>
 
-../styles/base/reset.css
-../styles/base/variables.css
-../styles/base/typography.css
-../styles/base/fonts.css
-../styles/base/utilities.css
-/components/sidebar.css">
-">
-../styles/components/button.css
-../styles/components/toast.css
-../styles/layouts/page-shell.css
-uracoes.css">
+  <link rel="stylesheet" href="../styles/base/reset.css">
+  <link rel="stylesheet" href="../styles/base/variables.css">
+  <link rel="stylesheet" href="../styles/base/typography.css">
+  <link rel="stylesheet" href="../styles/base/fonts.css">
+  <link rel="stylesheet" href="../styles/base/utilities.css">
+
+  <link rel="stylesheet" href="../styles/components/sidebar.css">
+  <link rel="stylesheet" href="../styles/components/card.css">
+  <link rel="stylesheet" href="../styles/components/button.css">
+  <link rel="stylesheet" href="../styles/components/toast.css">
+
+  <link rel="stylesheet" href="../styles/layouts/page-shell.css">
+  <link rel="stylesheet" href="../styles/pages/configuracoes.css">
 </head>
 
 <body>
+
   <div id="sidebar-overlay-mount"></div>
 
   <div class="app-shell">
+
     <div id="sidebar-mount"></div>
 
     <div class="shell-body">
+
       <div id="mobile-header-mount"></div>
 
       <main class="content">
+
         <div class="page-header">
           <p class="page-header__greeting">Painel Administrativo</p>
           <h1>Configurações</h1>
         </div>
 
+        <!-- Dados -->
         <section class="config-secao card">
-          <h3>Dados da plataforma</h3>
-          <div class="config-resumo-lista" id="resumo-dados"></div>
+
+          <h3>Dados da Plataforma</h3>
+
+          <div
+            class="config-resumo-lista"
+            id="resumo-dados">
+          </div>
+
         </section>
 
+        <!-- Sincronização -->
         <section class="config-secao card">
+
           <h3>Sincronização</h3>
+
           <div class="config-resumo-item">
             <span>Status</span>
-            <span class="text-secondary" id="status-sincronizacao">
+
+            <span
+              class="text-secondary"
+              id="status-sincronizacao">
               Verificando...
+            </span>
+
+          </div>
+
+          <p class="text-sm text-secondary mt-2">
+            Os dados são sincronizados via Supabase — toda a liderança
+            com login acessa as mesmas informações em tempo real.
+          </p>
+
+        </section>
+
+        <!-- Conta -->
+        <section class="config-secao card">
+
+          <h3>Conta</h3>
+
+          <div class="config-resumo-item">
+            <span>Status</span>
+            <span class="text-secondary">
+              Autenticado
+            </span>
+          </div>
+
+          <div class="config-resumo-item">
+            <span>Segurança</span>
+            <span class="text-secondary">
+              Supabase Auth
             </span>
           </div>
 
           <p class="text-sm text-secondary mt-2">
-  O BunkerHub está conectado ao Supabase e sincronizado em tempo real.
-  As informações cadastradas ficam disponíveis para usuários autorizados da mesma igreja.
-</p>
+            Login com Supabase Auth ativo.
+            Cada usuário acessa sua própria conta,
+            vinculada à igreja correspondente.
+          </p>
+
         </section>
 
+        <!-- Sistema -->
         <section class="config-secao card">
-  <h3>Conta</h3>
 
-  <div class="config-resumo-item">
-    <span>Status</span>
-    <span class="text-secondary">Autenticado</span>
-  </div>
+          <h3>Sistema</h3>
 
-  <div class="config-resumo-item">
-    <span>Segurança</span>
-    <span class="text-secondary">Supabase Auth</span>
-  </div>
+          <div class="config-resumo-item">
+            <span>Banco de Dados</span>
+            <span class="text-secondary">
+              Supabase
+            </span>
+          </div>
 
-  <p class="text-sm text-secondary mt-2">
-    O acesso ao sistema é controlado por autenticação e permissões vinculadas à igreja do usuário.
-  </p>
-</section>
+          <div class="config-resumo-item">
+            <span>Ambiente</span>
+            <span class="text-secondary">
+              Produção
+            </span>
+          </div>
 
+          <div class="config-resumo-item">
+            <span>Status</span>
+            <span class="text-secondary">
+              Operacional
+            </span>
+          </div>
+
+        </section>
+
+        <!-- Backup -->
         <section class="config-secao card">
+
           <h3>Backup</h3>
 
           <p class="text-sm text-secondary">
-            Exporte um arquivo com todos os dados cadastrados, ou restaure a partir de um backup anterior.
+            Exporte ou restaure informações da plataforma quando necessário.
           </p>
 
           <div class="config-acoes">
-            <button class="btn btn--primary" id="btn-exportar">
+
+            <button
+              class="btn btn--primary"
+              id="btn-exportar">
               ⬇ Baixar backup
             </button>
 
-            <label class="btn btn--ghost" style="cursor:pointer;">
+            <label
+              class="btn btn--ghost"
+              style="cursor:pointer">
+
               ⬆ Importar backup
+
               <input
                 type="file"
                 id="input-importar"
                 accept=".json"
-                style="display:none;"
-              >
+                style="display:none;">
+
             </label>
+
           </div>
+
         </section>
 
+        <!-- Arquivados -->
         <section class="config-secao card">
-          <h3>Itens arquivados</h3>
+
+          <h3>Itens Arquivados</h3>
 
           <p class="text-sm text-secondary mb-3">
-            Itens arquivados saem das listagens comuns, mas nada é apagado. Reative quando precisar.
+            Itens arquivados podem ser restaurados
+            a qualquer momento sem perda de dados.
           </p>
 
           <div class="arquivados-selector">
+
             <select id="select-colecao-arquivada"></select>
+
           </div>
 
           <div id="lista-arquivados"></div>
+
         </section>
 
+        <!-- Administração -->
         <section class="config-secao card config-danger">
-          <h3>Zona de risco</h3>
+
+          <h3>Área Administrativa</h3>
 
           <p class="text-sm text-secondary">
-            Isso apaga permanentemente todos os dados cadastrados no dispositivo. Use apenas para reiniciar o ambiente de testes.
+            Utilize os recursos desta seção apenas
+            em ambiente de desenvolvimento
+            ou sob orientação da administração.
           </p>
 
           <div class="config-acoes">
+
             <button
               class="btn btn--ghost btn--perigo-texto"
-              id="btn-limpar"
-            >
+              id="btn-limpar">
+
               Apagar todos os dados
+
             </button>
+
           </div>
+
         </section>
 
+        <!-- Sobre -->
         <section class="config-secao card">
+
           <h3>Sobre o BunkerHub</h3>
 
           <p class="config-filosofia">
-            Toda funcionalidade desta plataforma responde a duas perguntas:
-            <strong>isso glorifica a Deus?</strong>
-            e
-            <strong>isso ajuda a cuidar melhor das pessoas?</strong>
 
-            O BunkerHub existe para reduzir o tempo gasto com organização e aumentar o tempo dedicado ao discipulado, comunhão, serviço e cuidado da Juventude Bunker.
+            Toda funcionalidade desta plataforma
+            responde a duas perguntas:
+
+            <strong>
+              isso glorifica a Deus?
+            </strong>
+
+            e
+
+            <strong>
+              isso ajuda a cuidar melhor das pessoas?
+            </strong>
+
+            O BunkerHub existe para reduzir o tempo
+            gasto com organização e aumentar o tempo
+            dedicado ao discipulado, comunhão,
+            serviço e cuidado da Juventude Bunker.
+
           </p>
 
-          <p class="text-xs text-muted mt-2" id="versao-app"></p>
+          <p
+            class="text-xs text-muted mt-2"
+            id="versao-app">
+          </p>
+
         </section>
+
       </main>
+
     </div>
+
   </div>
 
   <script type="module">
-  import { montarSidebar } from '../scripts/components/Sidebar.js';
-  montarSidebar('configuracoes');
-</script>
+    import { montarSidebar } from '../scripts/components/Sidebar.js';
+    montarSidebar('configuracoes');
+  </script>
 
-/pages/configuracoes.page.js"></script>
+  <script
+    type="module"
+    src="../scripts/pages/configuracoes.page.js">
+  </script>
 
 </body>
 </html>
-```【1-400f9c】
-
----
-
-### 3. Mantenha o head EXATAMENTE assim
-
-```html
-../styles/base/reset.css
-variables.css">
-.css">
-../styles/base/fonts.css
-../styles/base/utilities.css
-../styles/components/sidebar.css
-../styles/components/card.css
-/button.css">
-">
-../styles/layouts/page-shell.css
-../styles/pages/configuracoes.css
