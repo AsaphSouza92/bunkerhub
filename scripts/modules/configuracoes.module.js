@@ -22,8 +22,24 @@ export function getInfoSincronizacao() {
   return { provider: DB_PROVIDER, rotulo: rotulos[DB_PROVIDER] || DB_PROVIDER, sincronizado: DB_PROVIDER !== 'localStorage' };
 }
 
-export async function getResumoDados() {
-  return Promise.all(COLLECTIONS.map(async col => ({ colecao: col, quantidade: (await db.listAtivos(col)).length })));
+export async function getColecoesArquivaveis() {
+  return Promise.all(
+    COLECOES_ARQUIVAVEIS.map(async col => {
+      try {
+        return {
+          id: col,
+          label: getNomeColecao(col),
+          total: (await db.list(col, item => item.ativo === false)).length,
+        };
+      } catch {
+        return {
+          id: col,
+          label: getNomeColecao(col),
+          total: 0,
+        };
+      }
+    })
+  );
 }
 
 export async function getColecoesArquivaveis() {
