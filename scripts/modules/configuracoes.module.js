@@ -22,6 +22,25 @@ export function getInfoSincronizacao() {
   return { provider: DB_PROVIDER, rotulo: rotulos[DB_PROVIDER] || DB_PROVIDER, sincronizado: DB_PROVIDER !== 'localStorage' };
 }
 
+export async function getResumoDados() {
+  return Promise.all(
+    COLLECTIONS.map(async col => {
+      try {
+        return {
+          colecao: col,
+          quantidade: (await db.listAtivos(col)).length
+        };
+      } catch {
+        return {
+          colecao: col,
+          quantidade: null
+        };
+      }
+    })
+  );
+}
+
+
 export async function getColecoesArquivaveis() {
   return Promise.all(
     COLECOES_ARQUIVAVEIS.map(async col => {
@@ -40,12 +59,6 @@ export async function getColecoesArquivaveis() {
       }
     })
   );
-}
-
-export async function getColecoesArquivaveis() {
-  return Promise.all(COLECOES_ARQUIVAVEIS.map(async col => ({
-    id: col, label: getNomeColecao(col), total: (await db.list(col, item => item.ativo === false)).length,
-  })));
 }
 
 export async function listarArquivados(colecao) {
