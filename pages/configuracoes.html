@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Configurações — Bunker Hub</title>
 
-  ../styles/base/reset.css
-  ../styles/base/variables.css
-  ../styles/base/typography.css
-  ../styles/base/fonts.css
-  ../styles/base/utilities.css
-  ../styles/components/sidebar.css
-  ../styles/components/card.css
-  ../styles/components/button.css
-  ../styles/components/toast.css
-  ../styles/layouts/page-shell.css
-  ../styles/pages/configuracoes.css
+../styles/base/reset.css
+../styles/base/variables.css
+../styles/base/typography.css
+../styles/base/fonts.css
+../styles/base/utilities.css
+/components/sidebar.css">
+">
+../styles/components/button.css
+../styles/components/toast.css
+../styles/layouts/page-shell.css
+uracoes.css">
 </head>
 
 <body>
@@ -34,13 +34,12 @@
         </div>
 
         <section class="config-secao card">
-          <h3>Dados da Plataforma</h3>
+          <h3>Dados da plataforma</h3>
           <div class="config-resumo-lista" id="resumo-dados"></div>
         </section>
 
         <section class="config-secao card">
           <h3>Sincronização</h3>
-
           <div class="config-resumo-item">
             <span>Status</span>
             <span class="text-secondary" id="status-sincronizacao">
@@ -49,53 +48,34 @@
           </div>
 
           <p class="text-sm text-secondary mt-2">
-            O BunkerHub está conectado ao Supabase e sincronizado em tempo real.
-            As informações cadastradas ficam disponíveis para usuários autorizados da mesma igreja.
-          </p>
+  O BunkerHub está conectado ao Supabase e sincronizado em tempo real.
+  As informações cadastradas ficam disponíveis para usuários autorizados da mesma igreja.
+</p>
         </section>
 
         <section class="config-secao card">
-          <h3>Conta</h3>
+  <h3>Conta</h3>
 
-          <div class="config-resumo-item">
-            <span>Status</span>
-            <span class="text-secondary">Autenticado</span>
-          </div>
+  <div class="config-resumo-item">
+    <span>Status</span>
+    <span class="text-secondary">Autenticado</span>
+  </div>
 
-          <div class="config-resumo-item">
-            <span>Segurança</span>
-            <span class="text-secondary">Supabase Auth</span>
-          </div>
+  <div class="config-resumo-item">
+    <span>Segurança</span>
+    <span class="text-secondary">Supabase Auth</span>
+  </div>
 
-          <p class="text-sm text-secondary mt-2">
-            O acesso ao sistema é controlado por autenticação e permissões vinculadas à igreja do usuário.
-          </p>
-        </section>
-
-        <section class="config-secao card">
-          <h3>Sistema</h3>
-
-          <div class="config-resumo-item">
-            <span>Banco de Dados</span>
-            <span class="text-secondary">Supabase</span>
-          </div>
-
-          <div class="config-resumo-item">
-            <span>Ambiente</span>
-            <span class="text-secondary">Produção</span>
-          </div>
-
-          <div class="config-resumo-item">
-            <span>Status</span>
-            <span class="text-secondary">Operacional</span>
-          </div>
-        </section>
+  <p class="text-sm text-secondary mt-2">
+    O acesso ao sistema é controlado por autenticação e permissões vinculadas à igreja do usuário.
+  </p>
+</section>
 
         <section class="config-secao card">
           <h3>Backup</h3>
 
           <p class="text-sm text-secondary">
-            Exporte ou restaure informações da plataforma quando necessário.
+            Exporte um arquivo com todos os dados cadastrados, ou restaure a partir de um backup anterior.
           </p>
 
           <div class="config-acoes">
@@ -116,10 +96,10 @@
         </section>
 
         <section class="config-secao card">
-          <h3>Itens Arquivados</h3>
+          <h3>Itens arquivados</h3>
 
           <p class="text-sm text-secondary mb-3">
-            Itens arquivados podem ser restaurados a qualquer momento sem perda de dados.
+            Itens arquivados saem das listagens comuns, mas nada é apagado. Reative quando precisar.
           </p>
 
           <div class="arquivados-selector">
@@ -130,15 +110,17 @@
         </section>
 
         <section class="config-secao card config-danger">
-          <h3>Área Administrativa</h3>
+          <h3>Zona de risco</h3>
 
           <p class="text-sm text-secondary">
-            Utilize os recursos desta seção apenas em ambientes de desenvolvimento
-            ou sob orientação da administração da plataforma.
+            Isso apaga permanentemente todos os dados cadastrados no dispositivo. Use apenas para reiniciar o ambiente de testes.
           </p>
 
           <div class="config-acoes">
-            <button class="btn btn--ghost btn--perigo-texto" id="btn-limpar">
+            <button
+              class="btn btn--ghost btn--perigo-texto"
+              id="btn-limpar"
+            >
               Apagar todos os dados
             </button>
           </div>
@@ -158,17 +140,34 @@
 
           <p class="text-xs text-muted mt-2" id="versao-app"></p>
         </section>
-
       </main>
     </div>
   </div>
 
-<script type="module">
+  <script type="module">
   import { montarSidebar } from '../scripts/components/Sidebar.js';
   montarSidebar('configuracoes');
 </script>
 
-scripts/pages/configuracoes.page.js"></script>
+/pages/configuracoes.page.js"></script>
 
 </body>
 </html>
+```【1-400f9c】
+
+---
+
+### 3. Mantenha o head EXATAMENTE assim
+
+```html
+../styles/base/reset.css
+variables.css">
+.css">
+../styles/base/fonts.css
+../styles/base/utilities.css
+../styles/components/sidebar.css
+../styles/components/card.css
+/button.css">
+">
+../styles/layouts/page-shell.css
+../styles/pages/configuracoes.css
