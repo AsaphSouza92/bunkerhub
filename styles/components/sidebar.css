@@ -11,12 +11,12 @@
 
 .sidebar__brand {
   display: flex; align-items: baseline;
-  padding: 0 var(--space-2) var(--space-5);
+  padding: 0 var(--space-2) var(--space-6);
 }
 
 .sidebar__brand-bunker {
   font-family: var(--font-brand);
-  font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em;
+  font-weight: 400; font-size: 1.5rem; letter-spacing: 0.01em;
   text-transform: uppercase;
   background: var(--accent-gradiente);
   -webkit-background-clip: text;
@@ -26,13 +26,13 @@
 
 .sidebar__brand-hub {
   font-family: var(--font-brand);
-  font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em;
+  font-weight: 400; font-size: 1.5rem; letter-spacing: 0.01em;
   color: var(--text-primary);
   text-transform: uppercase;
   margin-left: 2px;
 }
 
-.sidebar__nav { display: flex; flex-direction: column; gap: 2px; flex: 1; overflow-y: auto; }
+.sidebar__nav { display: flex; flex-direction: column; gap: 3px; flex: 1; overflow-y: auto; }
 
 .sidebar__link {
   display: flex; align-items: center; gap: var(--space-3);
@@ -40,14 +40,55 @@
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   font-size: 0.875rem;
+  position: relative;
   transition: background var(--transition-fast), color var(--transition-fast);
 }
 .sidebar__link:hover { background: var(--bg-elevated-hover); color: var(--text-primary); }
-.sidebar__link.is-active { background: var(--accent-soft); color: var(--accent); }
-.sidebar__icon { width: 18px; text-align: center; font-size: 1rem; }
+
+.sidebar__link.is-active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+.sidebar__link.is-active::before {
+  content: '';
+  position: absolute; left: -12px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 60%;
+  background: var(--accent);
+  border-radius: 0 4px 4px 0;
+}
+
+/* Emblema circular monocromático — mesma gramática do selo da marca-mãe
+   (ícone dentro de um círculo sólido), em vez do caractere solto de antes. */
+.sidebar__icon {
+  width: 26px; height: 26px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  background: var(--bg-elevated-hover);
+  color: var(--text-secondary);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.sidebar__link:hover .sidebar__icon {
+  color: var(--text-primary);
+}
+.sidebar__link.is-active .sidebar__icon { background: var(--accent); color: var(--texto-sobre-accent); }
+
+.sidebar__usuario {
+  border-top: 1px solid var(--border-subtle);
+  padding: var(--space-4) var(--space-2) 0;
+  margin-top: var(--space-3);
+}
+.sidebar__usuario-nome { font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); }
+.sidebar__usuario-igreja { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+.sidebar__usuario-sair {
+  margin-top: var(--space-3); font-size: 0.75rem; color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.sidebar__usuario-sair:hover { color: var(--perigo); }
 
 .header-mobile { display: none; }
-.header-mobile__title { font-weight: 600; }
+.header-mobile__title { font-weight: 600; font-family: var(--font-brand); letter-spacing: 0.01em; }
 .header-mobile__spacer { width: 36px; }
 
 @media (max-width: 860px) {

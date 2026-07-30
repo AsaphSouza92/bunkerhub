@@ -1,0 +1,58 @@
+/* dashboard.css — Hero Section + cards premium (Etapa 4 do redesign) */
+
+.dashboard-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  padding: var(--space-7) var(--space-6);
+  margin-bottom: var(--space-5);
+}
+
+.dashboard-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--glow-accent-strong);
+  pointer-events: none;
+}
+
+.dashboard-hero__greeting {
+  position: relative;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-1);
+}
+
+.dashboard-hero__titulo {
+  position: relative;
+  font-family: var(--font-brand);
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-6);
+}
+
+.dashboard-hero__versiculo {
+  position: relative;
+  max-width: 640px;
+}
+
+.dashboard-hero__versiculo-rotulo {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-3);
+}
+
+.dashboard-hero__versiculo p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .dashboard-hero { padding: var(--space-5) var(--space-4); }
+}

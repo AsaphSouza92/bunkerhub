@@ -28,29 +28,51 @@
       <div id="mobile-header-mount"></div>
 
       <main class="content">
-        <div class="page-header">
-          <p class="page-header__greeting">Bem-vindo(a) de volta,</p>
-          <h1>Juventude Bunker</h1>
-        </div>
+        <section class="dashboard-hero">
+  <p class="dashboard-hero__greeting">
+    Bem-vindo(a) de volta,
+  </p>
 
-        <section class="dashboard-grid">
-          <div class="card dashboard-grid__wide" id="widget-versiculo-card">
-            <div class="card__header"><h3 class="card__title">✦ Versículo do Dia</h3></div>
-            <div id="widget-versiculo"></div>
-          </div>
-          <div class="card">
-            <div class="card__header"><h3 class="card__title">◆ Próximo Evento</h3></div>
-            <div id="widget-evento"></div>
-          </div>
-          <div class="card">
-            <div class="card__header"><h3 class="card__title">🎂 Aniversariantes</h3></div>
-            <div id="widget-aniversarios"></div>
-          </div>
-          <div class="card">
-            <div class="card__header"><h3 class="card__title">✓ Minhas Tarefas</h3></div>
-            <div id="widget-tarefas"></div>
-          </div>
-        </section>
+  <h1 class="dashboard-hero__titulo">
+    Juventude Bunker
+  </h1>
+
+  <div class="dashboard-hero__versiculo" id="widget-versiculo-card">
+    <span class="dashboard-hero__versiculo-rotulo">
+      ✦ Versículo do Dia
+    </span>
+
+    <div id="widget-versiculo"></div>
+  </div>
+</section>
+
+<section class="dashboard-grid">
+
+  <div class="card card--premium">
+    <div class="card__header">
+      <h3 class="card__title">◆ Próximo Evento</h3>
+    </div>
+
+    <div id="widget-evento"></div>
+  </div>
+
+  <div class="card card--premium">
+    <div class="card__header">
+      <h3 class="card__title">🎂 Aniversariantes</h3>
+    </div>
+
+    <div id="widget-aniversarios"></div>
+  </div>
+
+  <div class="card card--premium">
+    <div class="card__header">
+      <h3 class="card__title">✓ Minhas Tarefas</h3>
+    </div>
+
+    <div id="widget-tarefas"></div>
+  </div>
+
+</section>
       </main>
     </div>
   </div>

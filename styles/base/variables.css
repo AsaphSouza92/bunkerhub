@@ -18,6 +18,7 @@
 
   --accent: #9FF668;
   --accent-escuro: #B8E660;
+  --accent-hover: #B8E660;
   --accent-soft: rgba(159, 246, 104, 0.14);
   --accent-gradiente: linear-gradient(135deg, #9FF668, #B8E660);
   --texto-sobre-accent: var(--preto-bunker);
@@ -44,7 +45,13 @@
   --transition-base: 200ms ease;
 
   --font-base: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-brand: 'Ruberoid', 'Inter', sans-serif;
+  --font-brand: 'Anton', 'Tusker Grotesk', 'Inter', sans-serif;
+
+  /* Glow radial — assinatura visual do brandbook (logotipo BUNKER com
+     brilho verde ao fundo). Uso pontual: hero, empty states, CTA
+     principal. Nunca como fundo geral de tela. */
+  --glow-accent: radial-gradient(circle at 30% 30%, rgba(159, 246, 104, 0.35), transparent 60%);
+  --glow-accent-strong: radial-gradient(circle at 50% 40%, rgba(159, 246, 104, 0.55), transparent 65%);
 
   --sidebar-width: 240px;
   --header-height: 56px;
