@@ -4,19 +4,58 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-4);
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at 20% 100%,
+    rgba(159, 246, 104, 0.28),
+    transparent 60%
+  );
 }
 
-.login-card { width: 100%; max-width: 380px; }
+.login-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+}
 
 .login-card__brand {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
   margin-bottom: var(--space-6);
 }
-.login-card__brand .sidebar__brand-bunker,
-.login-card__brand .sidebar__brand-hub { font-size: 1.6rem; }
 
-#login-form-container h2 { margin-bottom: var(--space-4); text-align: center; }
-#login-form-container p { margin-bottom: var(--space-4); }
-#login-form-container .field { margin-bottom: var(--space-3); }
-#login-form-container .btn { justify-content: center; }
+.login-card__brand-logo {
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.login-card__brand-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: -2px;
+}
+
+#login-form-container h2 {
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
+#login-form-container p {
+  margin-bottom: var(--space-4);
+}
+
+#login-form-container .field {
+  margin-bottom: var(--space-3);
+}
+
+#login-form-container .btn {
+  justify-content: center;
+}
