@@ -10,26 +10,25 @@
 }
 
 .sidebar__brand {
-  display: flex; align-items: baseline;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
   padding: 0 var(--space-2) var(--space-6);
 }
 
-.sidebar__brand-bunker {
-  font-family: var(--font-brand);
-  font-weight: 400; font-size: 1.5rem; letter-spacing: 0.01em;
-  text-transform: uppercase;
-  background: var(--accent-gradiente);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.sidebar__brand-logo {
+  display: block;
+  width: auto;
+  height: 34px;
 }
 
-.sidebar__brand-hub {
-  font-family: var(--font-brand);
-  font-weight: 400; font-size: 1.5rem; letter-spacing: 0.01em;
-  color: var(--text-primary);
+.sidebar__brand-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: .28em;
   text-transform: uppercase;
-  margin-left: 2px;
+  color: var(--accent);
 }
 
 .sidebar__nav { display: flex; flex-direction: column; gap: 3px; flex: 1; overflow-y: auto; }

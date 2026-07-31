@@ -30,9 +30,19 @@ function renderSidebarHTML(activeId) {
 
   return `
     <aside class="sidebar" id="sidebar">
-      <div class="sidebar__brand">
-        <span class="sidebar__brand-bunker">Bunker</span><span class="sidebar__brand-hub">Hub</span>
-      </div>
+     <div class="sidebar__brand">
+  <img
+    class="sidebar__brand-logo"
+    src="${window.location.pathname.includes('/pages/')
+      ? '../assets/fonts/images/logo-bunker.png'
+      : 'assets/fonts/images/logo-bunker.png'}"
+    alt="Bunker Hub"
+  >
+
+  <span class="sidebar__brand-tag">
+    HUB
+  </span>
+</div>
       <nav class="sidebar__nav">${links}</nav>
       ${renderRodapeUsuarioHTML()}
     </aside>
@@ -75,7 +85,7 @@ function setupLogout() {
 
 export async function montarSidebar(activeId, tituloMobile) {
 
-  console.log('MONTAR SIDEBAR EXECUTOU');
+
   
   // Em modo localStorage isso é um no-op (retorna true na hora). Em modo
   // supabase, confirma a sessão e preenche usuarioAtual/igrejaAtual no
