@@ -73,6 +73,12 @@ export async function listarArquivados(colecao) {
 
 export async function reativarItem(colecao, id) { return db.reativar(colecao, id); }
 
+export async function excluirItemArquivado(colecao, id) {
+
+return db.delete(colecao, id);
+
+}
+
 export async function exportarDados() {
   const dados = {};
   for (const col of COLLECTIONS) dados[col] = await db.list(col);
