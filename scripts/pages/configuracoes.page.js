@@ -1,6 +1,6 @@
 import {
   getResumoDados, getNomeColecao, baixarBackup, importarDados, limparTodosOsDados,
-  getColecoesArquivaveis, listarArquivados, reativarItem, getInfoSincronizacao, VERSAO_APP
+  getColecoesArquivaveis, listarArquivados, reativarItem,excluirItemArquivado, getInfoSincronizacao, VERSAO_APP
 } from '../modules/configuracoes.module.js';
 import { confirmarDialog } from '../components/Dialog.js';
 import { toast } from '../components/Toast.js';
@@ -8,10 +8,13 @@ import { toast } from '../components/Toast.js';
 async function renderResumo() {
   const container = document.getElementById('resumo-dados');
   const resumo = await getResumoDados();
+
   container.innerHTML = resumo.map(r => `
     <div class="config-resumo-item">
       <span>${getNomeColecao(r.colecao)}</span>
-      <span class="text-secondary">${r.quantidade}</span>
+      <span class="text-secondary">
+        ${r.quantidade === null ? '—' : r.quantidade}
+      </span>
     </div>
   `).join('');
 }
@@ -42,20 +45,65 @@ async function renderArquivados(colecao) {
     ? itens.map(i => `
         <div class="arquivado-item" data-id="${i.id}">
           <span>${i.titulo}</span>
-          <button class="arquivado-item__acao" data-colecao="${colecao}">Reativar</button>
+          <button
+  class="arquivado-item__acao"
+  data-colecao="${colecao}">
+  Reativar
+</button>
+
+<button
+  class="arquivado-item__excluir"
+  data-colecao="${colecao}">
+  Excluir
+</button>
         </div>`).join('')
     : `<p class="card__empty">Nenhum item arquivado nesta coleção.</p>`;
 
-  container.querySelectorAll('.arquivado-item__acao').forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-      const id = e.target.closest('.arquivado-item').dataset.id;
-      await reativarItem(btn.dataset.colecao, id);
-      await renderArquivados(colecao);
-      await popularSelectColecoes();
-      await renderResumo();
-      toast.sucesso('Item reativado.');
-    });
+ container.querySelectorAll('.arquivado-item__acao').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    const id = e.target.closest('.arquivado-item').dataset.id;
+    await reativarItem(btn.dataset.colecao, id);
+    await renderArquivados(colecao);
+    await popularSelectColecoes();
+    await renderResumo();
+    toast.sucesso('Item reativado.');
   });
+});
+
+container.querySelectorAll('.arquivado-item__excluir').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+
+    const id = e.target.closest('.arquivado-item').dataset.id;
+
+    confirmarDialog(
+      {
+        titulo: 'Excluir item',
+        mensagem: 'Este item será removido permanentemente. Essa ação não pode ser desfeita.',
+        textoConfirmar: 'Excluir',
+        perigo: true
+      },
+      async (confirmado) => {
+        if (!confirmado) return;
+
+        try {
+          await excluirItemArquivado(
+            btn.dataset.colecao,
+            id
+          );
+
+          await renderArquivados(colecao);
+          await popularSelectColecoes();
+          await renderResumo();
+
+          toast.sucesso('Item excluído permanentemente.');
+        } catch (err) {
+          toast.erro(err.message);
+        }
+      }
+    );
+
+  });
+});
 }
 
 function setupBackup() {
