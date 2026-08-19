@@ -73,6 +73,8 @@ async function renderArquivados(colecao) {
 container.querySelectorAll('.arquivado-item__excluir').forEach(btn => {
   btn.addEventListener('click', async (e) => {
 
+    console.log('EXCLUIR CLICADO');
+
     const id = e.target.closest('.arquivado-item').dataset.id;
 
     confirmarDialog(
