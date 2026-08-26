@@ -1,9 +1,6 @@
 import { supabase } from '../data/supabaseClient.js';
-
 import { DB_PROVIDER } from '../data/db.config.js';
-
-import { getState, setState } from '../core/store.js';
-
+import { setState } from '../core/store.js';
 import { usuariosIgrejaRepository } from '../data/repositories/usuariosIgrejaRepository.js';
 import { permissoesRepository } from '../data/repositories/permissoesRepository.js';
 
@@ -23,21 +20,20 @@ function resolverCaminhoInicio() {
 }
 
 export async function obterSessaoAtual() {
-  const { data } = await supabase.auth.getSession();
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) {
+    throw new Error(error.message);
+  }
 
   return data.session;
 }
 
-// Busca o profile e o vínculo com a(s) igreja(s) do usuário logado e
-// guarda no estado global (store.js), para o resto do app consultar via
-// getState() sem precisar rechamar o Supabase toda hora.
-//
-// Nota de escopo: se o usuário pertencer a mais de uma igreja, por
-// enquanto usamos sempre a primeira (vinculos[0]) como "igreja ativa".
-// Um seletor de igreja pode ser adicionado depois sem remodelar nada —
-// a estrutura (usuarios_igreja) já suporta múltiplos vínculos.
-
 async function sincronizarUsuarioAtual(sessao) {
+  if (!sessao?.user?.id) {
+    throw new Error('Sessao de usuario invalida.');
+  }
+
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
     .select('id, nome_completo, avatar_url')
@@ -60,7 +56,6 @@ async function sincronizarUsuarioAtual(sessao) {
 
   const vinculoAtivo = vinculos?.[0] || null;
 
-  // Carrega as permissões vinculadas ao papel do usuário.
   const permissoes = vinculoAtivo?.papel
     ? await permissoesRepository.obterPorPapel(vinculoAtivo.papel)
     : [];
@@ -83,18 +78,10 @@ async function sincronizarUsuarioAtual(sessao) {
   });
 }
 
-// Chamada no início de toda página "interna" do app (via Sidebar.js).
-// Em modo localStorage isso é um no-op — o app continua funcionando exatamente
-// como antes, sem exigir login. Só passa a exigir sessão quando
-// DB_PROVIDER === 'supabase'. Retorna false quando está redirecionando
-// (para quem chamou poder abortar o resto da renderização).
-//
-// Além de verificar a sessão, esta função verifica se o usuário possui
-// vínculo ativo com o BUNKER. Usuários autenticados, mas ainda não aprovados,
-// são direcionados para aguardando.html.
-
 export async function exigirLogin() {
-  if (DB_PROVIDER !== 'supabase') return true;
+  if (DB_PROVIDER !== 'supabase') {
+    return true;
+  }
 
   const sessao = await obterSessaoAtual();
 
@@ -103,11 +90,11 @@ export async function exigirLogin() {
     return false;
   }
 
-  // Verifica se o usuário possui vínculo ativo com o BUNKER.
   const ativoNoBunker = await verificarAtividadeBunker(sessao.user.id);
 
   if (!ativoNoBunker) {
-    const estaEmAguardando = window.location.pathname.includes('/aguardando.html');
+    const estaEmAguardando =
+      window.location.pathname.includes('/aguardando.html');
 
     if (!estaEmAguardando) {
       window.location.href = resolverCaminhoAguardando();
@@ -127,7 +114,9 @@ export async function fazerLogin(email, senha) {
     password: senha,
   });
 
-  if (error) throw new Error(traduzirErroAuth(error));
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
 
   await sincronizarUsuarioAtual(data.session);
 
@@ -138,7 +127,81 @@ export async function criarConta(email, senha, nomeCompleto) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password: senha,
-    options: { data: { nome_completo: nomeCompleto } },
+    options: {
+      data: {
+        nome_completo: nomeCompleto,
+      },
+    },
   });
 
-  if (error) throw new
+  if (error) {
+    throw new Error(traduzirErroAuth(error));
+  }
+
+  return data;
+}
+
+export async function fazerLogout() {
+  await supabase.auth.signOut();
+
+  setState({
+    usuarioAtual: null,
+    igrejaAtual: null,
+  });
+
+  window.location.href = resolverCaminhoLogin();
+}
+
+export async function criarPrimeiraIgreja(nome, slug) {
+  const { data, error } = await supabase.rpc('criar_igreja_com_admin', {
+    p_nome: nome,
+    p_slug: slug,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  const sessao = await obterSessaoAtual();
+
+  if (sessao) {
+    await sincronizarUsuarioAtual(sessao);
+  }
+
+  return data;
+}
+
+export async function verificarAtividadeBunker(profileId) {
+  return await usuariosIgrejaRepository.isUsuarioAtivoNoBunker(profileId);
+}
+
+function traduzirErroAuth(error) {
+  const msg = error?.message || '';
+
+  if (msg.includes('Invalid login credentials')) {
+    return 'E-mail ou senha incorretos.';
+  }
+
+  if (msg.includes('User already registered')) {
+    return 'Ja existe uma conta com esse e-mail.';
+  }
+
+  if (msg.includes('Password should be at least')) {
+    return 'A senha precisa ter pelo menos 6 caracteres.';
+  }
+
+  return msg || 'Nao foi possivel completar a operacao.';
+}
+
+if (DB_PROVIDER === 'supabase') {
+  supabase.auth.onAuthStateChange((evento) => {
+    if (evento === 'SIGNED_OUT') {
+      setState({
+        usuarioAtual: null,
+        igrejaAtual: null,
+      });
+    }
+  });
+}
+
+export { resolverCaminhoInicio };
