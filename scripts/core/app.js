@@ -1,6 +1,22 @@
 import { seedDatabase } from '../data/db.seed.js';
+import { DB_PROVIDER } from '../data/db.config.js';
 import { getDashboardData } from '../modules/dashboard.module.js';
 import { rodarMigracoes } from './migrations.js';
+import { getState } from './store.js';
+
+// Verifica se o usuário atual possui uma permissão específica.
+export function can(permissaoChave) {
+  const state = getState();
+
+  const permissoes = state.usuarioAtual?.permissoes || [];
+
+  // Administrador possui acesso total.
+  if (state.igrejaAtual?.papel === 'administrador') {
+    return true;
+  }
+
+  return permissoes.includes(permissaoChave);
+}
 
 function formatarData(dataStr) {
   const d = new Date(dataStr + 'T00:00:00');
@@ -40,7 +56,11 @@ async function renderDashboard() {
 
 async function init() {
   rodarMigracoes();
-  await seedDatabase();
+
+  if (DB_PROVIDER === 'localStorage') {
+    await seedDatabase();
+  }
+
   await renderDashboard();
 }
 
