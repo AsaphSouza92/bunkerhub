@@ -9,6 +9,7 @@ import {
 } from '../modules/eventos.module.js';
 
 import { listarPessoas } from '../modules/pessoas.module.js';
+import { getEscalaDoEvento } from '../modules/servico.module.js';
 import { registrarListenersGlobais } from '../core/bootstrap-listeners.js';
 import { abrirModal } from '../components/Modal.js';
 import { confirmarDialog } from '../components/Dialog.js';
@@ -195,6 +196,9 @@ async function abrirDetalheEvento(id) {
     }
 
     const pessoas = await carregarPessoas();
+const escala = await getEscalaDoEvento(evento.id);
+
+console.log('[Eventos] Escala do evento:', escala);
 
     const responsavelOptions = [
       '<option value="">Sem responsável definido</option>',
@@ -272,9 +276,47 @@ async function abrirDetalheEvento(id) {
         </div>
 
         <div class="mt-3">
-          <h3 class="mb-2">Checklist</h3>
-          ${checklistHTML(evento)}
+  <h3 class="mb-2">Escala</h3>
+
+  ${
+    escala.length === 0
+      ? `
+        <p class="card__empty">
+          Nenhuma pessoa escalada para este evento.
+        </p>
+      `
+      : `
+        <div class="escala-lista">
+          ${escala.map(item => `
+            <div class="escala-item">
+              <div>
+                <strong>
+                  ${item.pessoa?.nome || 'Pessoa não encontrada'}
+                </strong>
+
+                <div class="text-xs text-secondary">
+                  ${item.funcao?.nome || 'Função não definida'}
+                </div>
+              </div>
+
+              <div class="text-xs">
+                ${
+                  item.confirmado
+                    ? '✓ Confirmado'
+                    : 'Pendente'
+                }
+              </div>
+            </div>
+          `).join('')}
         </div>
+      `
+  }
+</div>
+
+<div class="mt-3">
+  <h3 class="mb-2">Checklist</h3>
+  ${checklistHTML(evento)}
+</div>
       `,
 
       aoConfirmar: async overlay => {
