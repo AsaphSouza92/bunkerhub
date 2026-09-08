@@ -52,11 +52,16 @@ export const supabaseProvider = {
   const estado = getState();
 
   const precisaIgreja = tabelasComIgreja().includes(table);
+const tabelasSemUpdatedAt = [
+  'pessoas_acompanhamentos'
+];
 
-  const payloadBase = {
+const payloadBase = {
   ...dados,
   createdAt: agoraISO(),
-  updatedAt: agoraISO(),
+  ...(tabelasSemUpdatedAt.includes(table)
+    ? {}
+    : { updatedAt: agoraISO() }),
 };
 
   if (precisaIgreja) {
