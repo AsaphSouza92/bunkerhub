@@ -60,11 +60,11 @@ export async function escalarPessoa(eventoId, pessoaId, funcaoId) {
   if (!pessoaId || !funcaoId) {
     throw new Error('Selecione uma pessoa e uma função.');
   }
-
   const escala = await escalasRepository.criar({
     evento_id: eventoId,
     pessoa_id: pessoaId,
-    funcao_servico_id: funcaoId
+    funcao_servico_id: funcaoId,
+    confirmado: true
   });
 
   emit('escala:criada', escala);
