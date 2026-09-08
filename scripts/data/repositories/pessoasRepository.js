@@ -1,29 +1,20 @@
 import { activeProvider as db } from '../providers/index.js';
-const COLLECTION = 'pessoas';
+import { getState } from '../../core/store.js';
 
-// Datas vazias vindas do formulário chegam como "" (não undefined),
-// e a coluna `date` no Postgres rejeita "" com erro 22007.
-// Valores vazios são convertidos para null antes de serem enviados.
+const COLLECTION = 'pessoas';
+const COLLECTION_ACOMPANHAMENTOS = 'pessoas_acompanhamentos';
+
 function vazioParaNull(valor) {
   return valor === '' || valor === undefined ? null : valor;
 }
 
-// O schema do Supabase usa `categoria`, `data_entrada` e
-// `proximo_acompanhamento` (ver supabase/schema.sql, Bloco 4).
-// O app usa `funcao`, `dataEntrada` e `proximoAcompanhamento` —
-// em vez de reescrever module.js/page.js, o repositório traduz nos
-// dois sentidos, que é a responsabilidade dele.
+// Supabase uses categoria, data_entrada, proximo_acompanhamento.
+// App uses funcao, dataEntrada, proximoAcompanhamento.
 function paraSupabase(dados) {
   const payload = {};
 
-  if (dados.nome !== undefined) {
-    payload.nome = dados.nome;
-  }
-
-  if (dados.telefone !== undefined) {
-    payload.telefone = dados.telefone;
-  }
-
+  if (dados.nome !== undefined) payload.nome = dados.nome;
+  if (dados.telefone !== undefined) payload.telefone = dados.telefone;
   if (dados.nascimento !== undefined) {
     payload.nascimento = vazioParaNull(dados.nascimento);
   }
@@ -32,7 +23,10 @@ function paraSupabase(dados) {
     payload.categoria = dados.categoria || dados.funcao || 'Visitante';
   }
 
-  if (dados.dataEntrada !== undefined || dados.data_entrada !== undefined) {
+  if (
+    dados.dataEntrada !== undefined ||
+    dados.data_entrada !== undefined
+  ) {
     payload.data_entrada = vazioParaNull(
       dados.data_entrada ?? dados.dataEntrada
     );
@@ -52,13 +46,8 @@ function paraSupabase(dados) {
     );
   }
 
-  // `ministerio` (texto livre) e `historico` (array) NÃO existem mais como
-  // colunas em `pessoas` — viraram `pessoa_ministerios` e
-  // `pessoas_acompanhamentos` no schema novo. Enviá-los quebrava o INSERT
-  // inteiro. Ficam de fora por ora (ver docs/SUPABASE-ARQUITETURA-E-MIGRACAO.md,
-  // seção 5.1 — adaptação pendente, não implementada nesta correção para não
-  // expandir o escopo de um fix de sincronização).
-
+  // ministerio e historico não existem mais diretamente
+  // na tabela pessoas.
   return payload;
 }
 
@@ -67,68 +56,175 @@ function paraApp(pessoa) {
 
   return {
     ...pessoa,
+
     funcao: pessoa.categoria ?? pessoa.funcao,
-    dataEntrada: pessoa.data_entrada ?? pessoa.dataEntrada,
+
+    dataEntrada:
+      pessoa.data_entrada ??
+      pessoa.dataEntrada,
+
     proximoAcompanhamento:
       pessoa.proximo_acompanhamento ??
       pessoa.proximoAcompanhamento ??
       null,
+
     historico: pessoa.historico || [],
   };
 }
 
+async function carregarHistorico(pessoaId) {
+  const acompanhamentos = await db.list(
+    COLLECTION_ACOMPANHAMENTOS,
+    acompanhamento => acompanhamento.pessoa_id === pessoaId
+  );
+
+  return acompanhamentos
+    .map(acompanhamento => ({
+      id: acompanhamento.id,
+      texto: acompanhamento.texto,
+      data:
+        acompanhamento.data_registro ??
+        acompanhamento.dataRegistro ??
+        null,
+      autorProfileId:
+        acompanhamento.autor_profile_id ??
+        acompanhamento.autorProfileId ??
+        null,
+      createdAt: acompanhamento.createdAt ?? null,
+    }))
+    .sort((a, b) => {
+      if (!a.data) return 1;
+      if (!b.data) return -1;
+
+      return String(b.data).localeCompare(String(a.data));
+    });
+}
+
+async function pessoaComHistorico(pessoa) {
+  if (!pessoa) return pessoa;
+
+  const pessoaApp = paraApp(pessoa);
+
+  pessoaApp.historico = await carregarHistorico(pessoa.id);
+
+  return pessoaApp;
+}
+
 export const pessoasRepository = {
   async listar(filtro = () => true) {
-    const itens = await db.listAtivos(COLLECTION, () => true);
-    return itens.map(paraApp).filter(filtro);
+    const itens = await db.listAtivos(
+      COLLECTION,
+      () => true
+    );
+
+    return itens
+      .map(paraApp)
+      .filter(filtro);
   },
 
   async listarIncluindoArquivadas(filtro = () => true) {
-    const itens = await db.list(COLLECTION, () => true);
-    return itens.map(paraApp).filter(filtro);
+    const itens = await db.list(
+      COLLECTION,
+      () => true
+    );
+
+    return itens
+      .map(paraApp)
+      .filter(filtro);
   },
 
   async buscarPorId(id) {
-    return paraApp(await db.get(COLLECTION, id));
+    const pessoa = await db.get(
+      COLLECTION,
+      id
+    );
+
+    return pessoaComHistorico(pessoa);
   },
 
   async criar(dados) {
-    return paraApp(
-      await db.create(COLLECTION, paraSupabase(dados))
+    const pessoa = await db.create(
+      COLLECTION,
+      paraSupabase(dados)
     );
+
+    return paraApp(pessoa);
   },
 
   async atualizar(id, patch) {
-    return paraApp(
-      await db.update(COLLECTION, id, paraSupabase(patch))
+    const pessoa = await db.update(
+      COLLECTION,
+      id,
+      paraSupabase(patch)
     );
+
+    return paraApp(pessoa);
   },
 
   async arquivar(id) {
-    return db.desativar(COLLECTION, id);
+    return db.desativar(
+      COLLECTION,
+      id
+    );
   },
 
   async reativar(id) {
-    return db.reativar(COLLECTION, id);
+    return db.reativar(
+      COLLECTION,
+      id
+    );
   },
 
-  async adicionarHistorico(id, entrada) {
-    // Continua funcionando só em modo localStorage — em modo Supabase,
-    // sem a tabela pessoas_acompanhamentos ligada, esse histórico não
-    // persiste ainda (pendência já documentada, fora do escopo deste fix).
+  async adicionarHistorico(
+    id,
+    entrada,
+    dataRegistro = null
+  ) {
+    const state = getState();
 
-    const pessoa = await this.buscarPorId(id);
+    const autorProfileId =
+      state.usuarioAtual?.id;
 
-    if (!pessoa) return null;
+    if (!autorProfileId) {
+      throw new Error(
+        'Não foi possível identificar o usuário responsável pelo acompanhamento.'
+      );
+    }
 
-    const historico = [
-      ...(pessoa.historico || []),
-      {
-        data: new Date().toISOString().slice(0, 10),
-        texto: entrada
-      }
-    ];
+    if (!entrada || !String(entrada).trim()) {
+      throw new Error(
+        'Informe uma observação para registrar o acompanhamento.'
+      );
+    }
 
-    return this.atualizar(id, { historico });
+    const acompanhamento =
+      await db.create(
+        COLLECTION_ACOMPANHAMENTOS,
+        {
+          pessoa_id: id,
+          autor_profile_id: autorProfileId,
+          texto: String(entrada).trim(),
+          data_registro:
+            dataRegistro ||
+            new Date()
+              .toISOString()
+              .slice(0, 10),
+        }
+      );
+
+    return {
+      id: acompanhamento.id,
+      texto: acompanhamento.texto,
+      data:
+        acompanhamento.data_registro ??
+        acompanhamento.dataRegistro ??
+        null,
+      autorProfileId:
+        acompanhamento.autor_profile_id ??
+        acompanhamento.autorProfileId ??
+        null,
+      createdAt:
+        acompanhamento.createdAt ?? null,
+    };
   },
 };
